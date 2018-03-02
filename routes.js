@@ -13,6 +13,12 @@ const User = mongoose.model('User', {
   password: String
 })
 
+var Token = mongoose.model('Token', {
+  userId: String,
+  token: String,
+  createdAt: Date
+})
+
 // Routes
 
 // register user
@@ -88,3 +94,5 @@ router.post('/login', (req, res) => {
     }
   }
 })
+
+export default router;

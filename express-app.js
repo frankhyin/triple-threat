@@ -30,3 +30,7 @@ mongoose.connection.on('error', function() {
   process.exit(1);
 });
 mongoose.connect(process.env.MONGODB_URI);
+
+// Listen on port 3000
+console.log('Express started. Listening on port', process.env.PORT || 3000);
+app.listen(process.env.PORT || 3000);
