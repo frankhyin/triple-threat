@@ -6,6 +6,7 @@ var express = require('express');
 var exphbs = require('express-handlebars');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
+var routes = require('./routes')
 
 // Initialize express
 var app = express();
