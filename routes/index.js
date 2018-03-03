@@ -8,8 +8,8 @@ var hashPassword = models.hashPassword;
 
 //REGISTER NEW USER
 router.post('/register', function(req, res) {
-  if (!req.body.email) {
-    res.json({success: false, error: "Email is missing."})
+  if (!req.body.username) {
+    res.json({success: false, error: "Username is missing."})
   } else if (!req.body.lastName) {
     res.json({success: false, error: "Last name is missing."})
   } else if (!req.body.firstName) {
@@ -19,12 +19,12 @@ router.post('/register', function(req, res) {
   } else if (!req.body.password || req.body.password.length < 6) {
     res.json({success: false, error: "Password must be at least 6 characters long."})
   } else {
-    User.findOne({email: req.body.email}, function(err, user) {
+    User.findOne({username: req.body.username}, function(err, user) {
       if (err) {
         res.json({success: false, error: err})
       } else if (!user) {
         var newUser = new User({
-          email: req.body.email,
+          username: req.body.username,
           password: hashPassword(req.body.password),
           phone: req.body.phone,
           lastName: req.body.lastName,
@@ -46,12 +46,12 @@ router.post('/register', function(req, res) {
 
 //LOG IN
 router.post("/login", function(req,res) {
-  if (!req.body.email) {
-    res.json({success: false, error: "Email is missing."})
+  if (!req.body.username) {
+    res.json({success: false, error: "Username is missing."})
   } else if (!req.body.password) {
     res.json({success: false, error: "Password is missing."})
   } else {
-    User.findOne({email: req.body.email, password: hashPassword(req.body.password)}, function(err, user) {
+    User.findOne({username: req.body.username, password: hashPassword(req.body.password)}, function(err, user) {
       if (err) {
         res.json({success: false, error: err})
       } else if (!user) {

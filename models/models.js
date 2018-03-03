@@ -14,7 +14,7 @@ var hashPassword = function(password) {
 };
 
 var userSchema = mongoose.Schema({
-  email: {
+  username: {
     type: String,
     required: true,
   },
