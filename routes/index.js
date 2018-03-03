@@ -82,7 +82,7 @@ router.get("/ping", function(req, res) {
 //POST NEW PING
 router.post("/ping/new", function(req, res) {
   var newPing = new Ping({
-    pingContent: req.body.ping,
+    pingContent: req.body.pingContent,
     begin: new Date(),
     //end: req.body.endTime,
     user: req.body.user_id
