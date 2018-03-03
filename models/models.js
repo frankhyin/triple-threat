@@ -60,28 +60,28 @@ var pingSchema = mongoose.Schema({
   }
 })
 
-var messageSchema = mongoose.Schema({
-  // ping: {
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   ref: 'Ping'
-  // },
-  owner: String,
-  owner_id: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
-  },
-  createdAt: Date,
-  text: String,
-})
+// var messageSchema = mongoose.Schema({
+//   // ping: {
+//   //   type: mongoose.Schema.Types.ObjectId,
+//   //   ref: 'Ping'
+//   // },
+//   owner: String,
+//   owner_id: {
+//     type: mongoose.Schema.Types.ObjectId,
+//     ref: 'User'
+//   },
+//   createdAt: Date,
+//   text: String,
+// })
 
 var User = mongoose.model('User', userSchema);
 var Ping = mongoose.model('Ping', pingSchema);
-var Message = mongoose.model('Message', messageSchema);
+// var Message = mongoose.model('Message', messageSchema);
 
 
 module.exports = {
   hashPassword: hashPassword,
   User: User,
   Ping: Ping,
-  Message: Message
+  //Message: Message
 };

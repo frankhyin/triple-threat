@@ -3,7 +3,7 @@ var router = express.Router();
 var models = require('../models/models');
 var User = models.User;
 var Ping = models.Ping;
-var Message = models.Message;
+// var Message = models.Message;
 var hashPassword = models.hashPassword;
 
 //REGISTER NEW USER
@@ -97,37 +97,37 @@ router.post("/ping/new", function(req, res) {
   })
 })
 
-router.get("/messages", function(req, res) {
-  Message.find().exec(function(err, messages) {
-    if (err) {
-      res.json({success: false, error: err})
-    } else {
-      res.json({success: true, messages: messages})
-    } 
-  })
-})
+// router.get("/messages", function(req, res) {
+//   Message.find().exec(function(err, messages) {
+//     if (err) {
+//       res.json({success: false, error: err})
+//     } else {
+//       res.json({success: true, messages: messages})
+//     } 
+//   })
+// })
 
-router.post("/messages/new", function(req, res) {
-  User.findById(req.body.user_id, function(err, user) {
-    if (err) {
-      res.json({success: false, error: err})
-    } else {
-      var newMess = new Message({
-      owner: user.firstName + ' ' + user.lastName,
-      owner_id: req.body.user_id,
-      text: req.body.text,
-      createdAt: new Date()
-    })
-      newMess.save(function(err) {
-        if (err) {
-          res.json({success: false, error: err})
-        } else {
-          res.json({success: true})
-        }
-      })
-    }
-  })
-})
+// router.post("/messages/new", function(req, res) {
+//   User.findById(req.body.user_id, function(err, user) {
+//     if (err) {
+//       res.json({success: false, error: err})
+//     } else {
+//       var newMess = new Message({
+//       owner: user.firstName + ' ' + user.lastName,
+//       owner_id: req.body.user_id,
+//       text: req.body.text,
+//       createdAt: new Date()
+//     })
+//       newMess.save(function(err) {
+//         if (err) {
+//           res.json({success: false, error: err})
+//         } else {
+//           res.json({success: true})
+//         }
+//       })
+//     }
+//   })
+// })
 
 //LOAD PING INFO & MESSAGES
 // router.get("/ping/:ping_id", function(req, res) {
