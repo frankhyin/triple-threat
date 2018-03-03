@@ -192,7 +192,19 @@ router.post("/profile/:user_id", function(req, res) {
       })
     }
   })
-  
+})
+
+router.get("/user/:user_id", function(req, res) {
+
+  User.findById(req.params.user_id, function(err, user) {
+    if (err) {
+      res.json({success: false, error: err})
+    } else if (user) {
+      res.json({success: true, user: {firstName: user.firstName, lastName: user.lastName, phone: user.phone, topics: user.topics}})
+    } else {
+      res.json({success: false, error: "Invalid User ID."})
+    }
+  })
 })
 
 
