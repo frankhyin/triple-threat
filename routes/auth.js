@@ -9,7 +9,7 @@ module.exports = function(passport) {
   router.post('/register', function(req, res) {
     if (!req.body.email) {
 
-      res.json({error: "Email is missing."})
+      res.json({success: false, error: "Email is missing."})
 
     } else if (!req.body.lastName) {
 
@@ -30,7 +30,6 @@ module.exports = function(passport) {
     } else {
 
       User.findOne({email: req.body.email}, function(err, user) {
-        console.log(err, user)
         if (err) {
 
           res.json({success: false, error: err})
@@ -69,18 +68,12 @@ module.exports = function(passport) {
   })
 
 
-
-  // router.post("/login", passport.authenticate('local', {successRedirect: "/login/success", failureRedirect: "/login/failure"}))
-
-  // router.get("/login/success", function(req, res){res.send('hi');})
-  
-  // router.get("/login/failure", function(req, res){res.send('u succ');})
-
   router.post("/login", passport.authenticate('local'), function(req,res) {
+    console.log(req.user);
     if (!req.user) {
-      res.json({success: false, error: "NOT SURE WHY"})
+      res.json({success: false, error: "Failed to login."})
     } else {
-      res.json({success: true})
+      res.json({success: true, user: req.user._id})
     }
   })
 

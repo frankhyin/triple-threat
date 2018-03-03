@@ -5,6 +5,8 @@ var connect = process.env.MONGODB_URI;
 
 mongoose.connect(connect);
 
+var defaultTopics = ["sports", 'exercise', 'food', 'drinks', 'movies', 'concerts', 'hackathon', 'other events' ]
+
 var hashPassword = function(password) {
   var hash = crypto.createHash('md5');
   hash.update(password+"pingPING");
@@ -32,30 +34,53 @@ var userSchema = mongoose.Schema({
     type: String,
     minlength: 10,
     maxlength: 10,
+    required: true,
+  },
+  topics: {
+    type: Array,
+    default: defaultTopics
   }
 })
 
-var activitySchema = mongoose.Schema({
-  activityName: {
+var pingSchema = mongoose.Schema({
+  pingContent: {
     type: String,
     required: true,
   },
-  message: {
-    type: String,
-    required: true,
+  location: Array,
+  begin: Date,
+  end: Date,
+  active: {
+    type: Boolean,
+    default: true
   },
-  location: String,
-  time: String,
-  active: Boolean,
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }
+})
 
+var messageSchema = mongoose.Schema({
+  ping: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Ping'
+  },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  },
+  time: Date,
+  content: String,
 })
 
 var User = mongoose.model('User', userSchema);
-var Activity = mongoose.model('Activity', activitySchema);
+var Ping = mongoose.model('Ping', pingSchema);
+var Message = mongoose.model('Message', messageSchema);
 
 
 module.exports = {
   hashPassword: hashPassword,
   User: User,
-  Activity: Activity
+  Ping: Ping,
+  Message: Message
 };
