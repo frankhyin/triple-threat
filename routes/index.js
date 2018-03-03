@@ -115,8 +115,8 @@ router.post("/messages/new", function(req, res) {
       var newMess = new Message({
       owner: user.firstName + ' ' + user.lastName,
       owner_id: req.body.user_id,
-      content: req.body.content,
-      time: new Date()
+      text: req.body.text,
+      createdAt: new Date()
     })
       newMess.save(function(err) {
         if (err) {

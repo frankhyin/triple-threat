@@ -70,8 +70,8 @@ var messageSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   },
-  time: Date,
-  content: String,
+  createdAt: Date,
+  text: String,
 })
 
 var User = mongoose.model('User', userSchema);
