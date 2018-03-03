@@ -1,5 +1,5 @@
-import mongoose from 'mongoose';
-import crypto from 'crypto';
+var mongoose = require('mongoose');
+var crypto = require('crypto');
 
 var connect = process.env.MONGODB_URI;
 
@@ -28,7 +28,11 @@ var userSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  phone
+  phone: {
+    type: String,
+    minlength: 10,
+    maxlength: 10,
+  }
 })
 
 var activitySchema = mongoose.Schema({
@@ -50,7 +54,7 @@ var User = mongoose.model('User', userSchema);
 var Activity = mongoose.model('Activity', activitySchema);
 
 
-export default {
+module.exports = {
   hashPassword: hashPassword,
   User: User,
   Activity: Activity
