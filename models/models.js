@@ -61,11 +61,12 @@ var pingSchema = mongoose.Schema({
 })
 
 var messageSchema = mongoose.Schema({
-  ping: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Ping'
-  },
-  user: {
+  // ping: {
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: 'Ping'
+  // },
+  owner: String,
+  owner_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   },

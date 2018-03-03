@@ -2,8 +2,8 @@ var express = require('express');
 var router = express.Router();
 var models = require('../models/models');
 var User = models.User;
-var Activity = models.Activity;
 var Ping = models.Ping;
+var Message = models.Message;
 var hashPassword = models.hashPassword;
 
 //REGISTER NEW USER
@@ -97,68 +97,102 @@ router.post("/ping/new", function(req, res) {
   })
 })
 
-//LOAD PING INFO & MESSAGES
-router.get("/ping/:ping_id", function(req, res) {
-  Ping.findById(req.params.ping_id, function(err, ping) {
+router.get("/messages", function(req, res) {
+  Message.find().exec(function(err, messages) {
     if (err) {
       res.json({success: false, error: err})
-    } else if (!ping) {
-      res.json({success: false, error: 'Invalid Ping ID'})
     } else {
-      Message.find({ping: req.params.ping_id}, function(err, messages) {
+      res.json({success: true, messages: messages})
+    } 
+  })
+})
+
+router.post("/messages/new", function(req, res) {
+  User.findById(req.body.user_id, function(err, user) {
+    if (err) {
+      res.json({success: false, error: err})
+    } else {
+      var newMess = new Message({
+      owner: user.firstName + ' ' + user.lastName,
+      owner_id: req.body.user_id,
+      content: req.body.content,
+      time: new Date()
+    })
+      newMess.save(function(err) {
         if (err) {
           res.json({success: false, error: err})
         } else {
-          res.json({success: true, ping: ping, messages: messages})
+          res.json({success: true})
         }
       })
     }
   })
 })
+
+//LOAD PING INFO & MESSAGES
+// router.get("/ping/:ping_id", function(req, res) {
+//   Ping.findById(req.params.ping_id, function(err, ping) {
+//     if (err) {
+//       res.json({success: false, error: err})
+//     } else if (!ping) {
+//       res.json({success: false, error: 'Invalid Ping ID'})
+//     } else {
+//       Message.find({ping: req.params.ping_id}, function(err, messages) {
+//         if (err) {
+//           res.json({success: false, error: err})
+//         } else {
+//           res.json({success: true, ping: ping, messages: messages})
+//         }
+//       })
+//     }
+//   })
+// })
+
+
 
 //POST NEW MESSAGE
-router.post("/ping/:ping_id", function(req, res) {
-  Ping.findById(req.params.ping_id, function(err, ping) {
-    if (err) {
-      res.json({success: false, error: err})
-    } else if (!ping) {
-      res.json({success: false, error: 'Invalid Ping ID'})
-    } else {
-      var newMessage = new Message({
-        ping: req.params.ping_id,
-        user: req.body.user_id,
-        time: new Date(),
-        content: req.body.content
-      })
-      newMessage.save(function(err) {
-        if (err) {
-          res.json({success: false, error: err})
-        } else {
-          res.json({success: true})
-        }
-      })
-    }
-  })
-})
+// router.post("/ping/:ping_id", function(req, res) {
+//   Ping.findById(req.params.ping_id, function(err, ping) {
+//     if (err) {
+//       res.json({success: false, error: err})
+//     } else if (!ping) {
+//       res.json({success: false, error: 'Invalid Ping ID'})
+//     } else {
+//       var newMessage = new Message({
+//         ping: req.params.ping_id,
+//         user: req.body.user_id,
+//         time: new Date(),
+//         content: req.body.content
+//       })
+//       newMessage.save(function(err) {
+//         if (err) {
+//           res.json({success: false, error: err})
+//         } else {
+//           res.json({success: true})
+//         }
+//       })
+//     }
+//   })
+// })
 
 //ARCHIVE PING
-router.delete("/ping/:ping_id", function(req, res) {
-  Ping.findById(req.params.ping_id, function(err, ping) {
-    if (err) {
-      res.json({success: false, error: err})
-    } else if (!ping) {
-      res.json({success: false, error: 'Invalid Ping ID'})
-    } else {
-      Ping.findByIdAndUpdate({active: false}, function(err) {
-        if (err) {
-          res.json({success: false, error: err})
-        } else {
-          res.json({success: true})
-        }
-      })
-    }
-  })
-})
+// router.delete("/ping/:ping_id", function(req, res) {
+//   Ping.findById(req.params.ping_id, function(err, ping) {
+//     if (err) {
+//       res.json({success: false, error: err})
+//     } else if (!ping) {
+//       res.json({success: false, error: 'Invalid Ping ID'})
+//     } else {
+//       Ping.findByIdAndUpdate({active: false}, function(err) {
+//         if (err) {
+//           res.json({success: false, error: err})
+//         } else {
+//           res.json({success: true})
+//         }
+//       })
+//     }
+//   })
+// })
 
 //GET USER PROFILE
 router.get("/profile/:user_id", function(req, res) {
