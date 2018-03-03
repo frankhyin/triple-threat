@@ -45,7 +45,6 @@ var userSchema = mongoose.Schema({
 var pingSchema = mongoose.Schema({
   pingContent: {
     type: String,
-    required: true,
   },
   location: Array,
   begin: Date,
